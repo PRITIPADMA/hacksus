@@ -1,10 +1,11 @@
 import React from "react";
 import { Button, Header, Segment } from "semantic-ui-react";
+import Link from "next/link";
 
 const StoryHeader = () => (
   <Segment clearing>
     <Header as="h1" floated="left">
-      Stories of People...
+      <Link href="/">Stories of People...</Link>
     </Header>
     <Button inverted floated="right" color="violet">
       Logout
