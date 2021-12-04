@@ -8,13 +8,9 @@ import db from "../services/db";
 const StoryContainer = ({ stories }) => {
   const { user } = useStore();
 
-  const likeStory = async (story, likes) => {
-    await updateDoc(doc(db, "stories", story.id), {
-      likes: likes + 1,
-    });
-  };
+  const likeStory = async () => {};
 
-  const dislikeStory = (story) => {};
+  const dislikeStory = () => {};
 
   return (
     <Card.Group centered>

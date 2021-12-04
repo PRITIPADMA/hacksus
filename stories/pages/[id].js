@@ -16,19 +16,19 @@ const Story = () => {
   const router = useRouter();
   const { user } = useStore();
   const [story, setStory] = useState();
+
   useEffect(() => {
     const getStory = async () => {
-      let s = {};
       const querySnapshot = await getDocs(storiesCol);
       querySnapshot.forEach((doc) => {
-        if (doc.data().id == router.query.id) {
-          return (s = doc.data());
+        if (doc.id == router.query.id) {
+          return setStory(doc.data());
         }
       });
-      setStory(s);
     };
     getStory();
-  });
+  }, [router.query.id]);
+
   return (
     <>
       <StoryHeader />
