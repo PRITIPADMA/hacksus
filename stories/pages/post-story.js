@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { Button, Checkbox, Container, Form } from "semantic-ui-react";
 import StoryHeader from "../components/Header";
+import db from "../services/db";
 
 const PostStory = () => {
   return (

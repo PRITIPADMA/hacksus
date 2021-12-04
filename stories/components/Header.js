@@ -3,14 +3,17 @@ import { Button, Header, Segment } from "semantic-ui-react";
 import Link from "next/link";
 import { auth, provider } from "../services/auth";
 import { signInWithPopup, signOut } from "firebase/auth";
+import useStore from "../hooks/use-store";
 
-const StoryHeader = ({ currentUser, setCurrentUser }) => {
+const StoryHeader = () => {
+  const { setUser, user } = useStore();
+
   return (
     <Segment clearing>
       <Header as="h1" floated="left">
         <Link href="/">Stories of People...</Link>
       </Header>
-      {currentUser && (
+      {user && (
         <Button
           inverted
           floated="right"
@@ -22,7 +25,7 @@ const StoryHeader = ({ currentUser, setCurrentUser }) => {
           Logout
         </Button>
       )}
-      {!currentUser && (
+      {!user && (
         <Button
           inverted
           floated="right"
@@ -31,7 +34,7 @@ const StoryHeader = ({ currentUser, setCurrentUser }) => {
             signInWithPopup(auth, provider)
               .then((result) => {
                 const user = result.user;
-                setCurrentUser(user);
+                setUser(user);
               })
               .catch((error) => {
                 const errorCode = error.code;
