@@ -4,8 +4,10 @@ import Link from "next/link";
 import { auth, provider } from "../services/auth";
 import { signInWithPopup, signOut } from "firebase/auth";
 import useStore from "../hooks/use-store";
+import { useRouter } from "next/dist/client/router";
 
 const StoryHeader = () => {
+  const router = useRouter();
   const { setUser, user } = useStore();
 
   return (
@@ -20,6 +22,7 @@ const StoryHeader = () => {
           color="violet"
           onClick={() => {
             signOut(auth).then(() => console.log("user signed out"));
+            return router.push("/");
           }}
         >
           Logout

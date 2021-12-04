@@ -1,4 +1,6 @@
-import React from "react";
+import { getDocs } from "@firebase/firestore";
+import { useRouter } from "next/dist/client/router";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -6,53 +8,53 @@ import {
   Segment,
   Statistic,
 } from "semantic-ui-react";
+import StoryHeader from "../components/Header";
+import useStore from "../hooks/use-store";
+import { storiesCol } from "../services/db";
 
-const Story = () => (
-  <Container text textAlign="center">
-    <Segment padded>
-      <Header as="h1">Header</Header>
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-        ligula eget dolor. Aenean massa strong. Cum sociis natoque penatibus et
-        magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
-        ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
-        arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
-        Nullam dictum felis eu pede link mollis pretium. Integer tincidunt. Cras
-        dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
-        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-        enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-        Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean
-        imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper
-        ultricies nisi.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo
-        ligula eget dolor. Aenean massa strong. Cum sociis natoque penatibus et
-        magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis,
-        ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa
-        quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
-        arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.
-        Nullam dictum felis eu pede link mollis pretium. Integer tincidunt. Cras
-        dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend
-        tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-        enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
-        Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean
-        imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper
-        ultricies nisi.
-      </p>
-      <Button inverted color="green">
-        Like (0)
-      </Button>
-      <Button inverted color="red">
-        Dislike (0)
-      </Button>
-    </Segment>
-    <Statistic>
-      <Statistic.Label>Views</Statistic.Label>
-      <Statistic.Value>40,509</Statistic.Value>
-    </Statistic>
-  </Container>
-);
+const Story = () => {
+  const router = useRouter();
+  const { user } = useStore();
+  const [story, setStory] = useState();
+  useEffect(() => {
+    const getStory = async () => {
+      let s = {};
+      const querySnapshot = await getDocs(storiesCol);
+      querySnapshot.forEach((doc) => {
+        if (doc.data().id == router.query.id) {
+          return (s = doc.data());
+        }
+      });
+      setStory(s);
+    };
+    getStory();
+  });
+  return (
+    <>
+      <StoryHeader />
+      <Container text textAlign="center">
+        <Segment padded>
+          <Header as="h1">{story?.title}</Header>
+          <p>{story?.storyInShort}</p>
+          <p>{story?.story}</p>
+          {user && (
+            <>
+              <Button inverted color="green">
+                Like ({story?.likes})
+              </Button>
+              <Button inverted color="red">
+                Dislike ({story?.dislikes})
+              </Button>
+            </>
+          )}
+        </Segment>
+        <Statistic>
+          <Statistic.Label>Views</Statistic.Label>
+          <Statistic.Value>{story?.views}</Statistic.Value>
+        </Statistic>
+      </Container>
+    </>
+  );
+};
 
 export default Story;

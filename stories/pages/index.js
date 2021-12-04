@@ -1,20 +1,33 @@
 import Head from "next/head";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Loader } from "semantic-ui-react";
 import StoryContainer from "../components/Container";
 import StoryHeader from "../components/Header";
 import Link from "next/link";
 import { auth } from "../services/auth";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import useStore from "../hooks/use-store";
+import { getDocs } from "@firebase/firestore";
+import db, { storiesCol } from "../services/db";
 
 export default function Home() {
   const { setUser, user } = useStore();
+  const [stories, setStories] = useState([]);
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       setUser(user);
     });
-  }, [setUser]);
+    const getStories = async () => {
+      let s = [];
+      const querySnapshot = await getDocs(storiesCol);
+      querySnapshot.forEach((doc) => {
+        s.push(doc.data());
+      });
+      setStories(s);
+    };
+    getStories();
+  }, [setUser, stories]);
 
   return (
     <div>
@@ -22,7 +35,7 @@ export default function Home() {
         <title>stories</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <StoryHeader currentUser={user} setUser={setUser} />
+      <StoryHeader />
       {user && (
         <Card.Group centered>
           <Link href="/post-story" passHref>
@@ -30,7 +43,11 @@ export default function Home() {
           </Link>
         </Card.Group>
       )}
-      <StoryContainer />
+      {stories ? (
+        <StoryContainer stories={stories} />
+      ) : (
+        <Loader active inline="centered" />
+      )}
     </div>
   );
 }
