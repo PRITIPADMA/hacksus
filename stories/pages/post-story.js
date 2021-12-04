@@ -1,10 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
-import { Button, Checkbox, Container, Form } from "semantic-ui-react";
+import { Button, Checkbox, Container, Form, Message } from "semantic-ui-react";
 import StoryHeader from "../components/Header";
 import db from "../services/db";
+import useStore from "../hooks/use-store";
+import { collection, addDoc } from "firebase/firestore";
 
 const PostStory = () => {
+  const { user } = useStore();
+  const [title, setTitle] = useState("");
+  const [storyInShort, setStoryInShort] = useState("");
+  const [story, setStory] = useState("");
+  const submitStory = async () => {
+    if (
+      user.displayName &&
+      title !== "" &&
+      storyInShort !== "" &&
+      story !== "" &&
+      user.photoURL
+    ) {
+      try {
+        const docRef = await addDoc(collection(db, "stories"), {
+          id: Math.floor(Math.random() * 10000000000),
+          username: user.displayName,
+          title,
+          storyInShort,
+          story,
+          userImg: user.photoURL,
+          likes: [],
+          dislikes: [],
+          views: 0,
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    } else {
+      console.log("lol");
+    }
+  };
   return (
     <>
       <StoryHeader />
@@ -13,23 +47,41 @@ const PostStory = () => {
           <title>Post Story</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Form>
+        <Form onSubmit={submitStory}>
           <Form.Field>
             <label>Title</label>
-            <input placeholder="Title" />
+            <input
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </Form.Field>
           <Form.Field>
             <label>Story(in short)</label>
-            <input placeholder="Story in short..." />
+            <input
+              placeholder="Story in short..."
+              value={storyInShort}
+              onChange={(e) => setStoryInShort(e.target.value)}
+            />
           </Form.Field>
           <Form.Field>
             <label>Story</label>
-            <textarea placeholder="Story..." />
+            <textarea
+              placeholder="Story..."
+              value={story}
+              onChange={(e) => setStory(e.target.value)}
+            />
           </Form.Field>
           <Button inverted color="violet" type="submit">
             Submit
           </Button>
         </Form>
+        <Message warning>
+          <Message.Header>
+            Please note: Don&apos;t post fake stories.
+          </Message.Header>
+          <p>A certain amount of dislikes can take down your story.</p>
+        </Message>
       </Container>
     </>
   );
