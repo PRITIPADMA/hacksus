@@ -27,12 +27,10 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Clearing path
-        run: rm -rf /home/admin/web/ec2-52-66-238-113.ap-south-1.compute.amazonaws.com/public_html
-root@ec2-52-66-238-113:/home/admin/web/ec2-52-66-238-113.ap-south-1.compute.amazonaws.com/public_html/*
+        run: rm -rf /home/admin/web/ec2-52-66-238-113.ap-south-1.compute.amazonaws.com/public_html/*
 
       - name: Move directory
-        run: mv * /home/admin/web/ec2-52-66-238-113.ap-south-1.compute.amazonaws.com/public_html
-root@ec2-52-66-238-113:/home/admin/web/ec2-52-66-238-113.ap-south-1.compute.amazonaws.com/public_html/
+        run: mv * /home/admin/web/ec2-52-66-238-113.ap-south-1.compute.amazonaws.com/public_html/
         
       # Runs a set of commands using the runners shell
       - name: Reloading nginx
