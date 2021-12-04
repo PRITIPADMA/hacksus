@@ -4,14 +4,15 @@ import StoryContainer from "../components/Container";
 import StoryHeader from "../components/Header";
 import Link from "next/link";
 import { auth } from "../services/auth";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "@firebase/auth";
 
 export default function Home() {
   const [currentUser, setCurrentUser] = useState(null);
   useEffect(() => {
-    if (auth.currentUser) {
-      setCurrentUser(auth.currentUser);
-    }
+    onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+    });
   }, []);
   return (
     <div>

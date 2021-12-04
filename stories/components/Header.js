@@ -16,7 +16,7 @@ const StoryHeader = ({ currentUser, setCurrentUser }) => {
           floated="right"
           color="violet"
           onClick={() => {
-            signOut();
+            signOut(auth).then(() => console.log("user signed out"));
           }}
         >
           Logout
