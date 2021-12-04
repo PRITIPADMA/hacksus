@@ -21,7 +21,7 @@ const PostStory = () => {
     ) {
       try {
         const docRef = await addDoc(collection(db, "stories"), {
-          id: Math.floor(Math.random() * 10000000000),
+          //id: Math.floor(Math.random() * 10000000000),
           username: user.displayName,
           title,
           storyInShort,

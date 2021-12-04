@@ -21,13 +21,16 @@ export default function Home() {
     const getStories = async () => {
       let s = [];
       const querySnapshot = await getDocs(storiesCol);
+      //console.log(querySnapshot);
       querySnapshot.forEach((doc) => {
-        s.push(doc.data());
+        //console.log(doc.id);
+        s.push({...doc.data(),id: doc.id});
+        console.log(s);
       });
       setStories(s);
     };
     getStories();
-  }, [setUser, stories]);
+  }, []);
 
   return (
     <div>
