@@ -27,8 +27,8 @@ const PostStory = () => {
           storyInShort,
           story,
           userImg: user.photoURL,
-          likes: [],
-          dislikes: [],
+          likes: 0,
+          dislikes: 0,
           views: 0,
         });
         console.log("Document written with ID: ", docRef.id);

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { Button, Card } from "semantic-ui-react";
+import { Button, Card, Loader } from "semantic-ui-react";
 import StoryContainer from "../components/Container";
 import StoryHeader from "../components/Header";
 import Link from "next/link";
@@ -7,8 +7,8 @@ import { auth } from "../services/auth";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import useStore from "../hooks/use-store";
-import { collection, getDocs, query } from "@firebase/firestore";
-import db from "../services/db";
+import { getDocs } from "@firebase/firestore";
+import db, { storiesCol } from "../services/db";
 
 export default function Home() {
   const { setUser, user } = useStore();
@@ -20,7 +20,7 @@ export default function Home() {
     });
     const getStories = async () => {
       let s = [];
-      const querySnapshot = await getDocs(collection(db, "stories"));
+      const querySnapshot = await getDocs(storiesCol);
       querySnapshot.forEach((doc) => {
         s.push(doc.data());
       });
@@ -43,7 +43,11 @@ export default function Home() {
           </Link>
         </Card.Group>
       )}
-      <StoryContainer stories={stories} />
+      {stories ? (
+        <StoryContainer stories={stories} />
+      ) : (
+        <Loader active inline="centered" />
+      )}
     </div>
   );
 }
