@@ -20,3 +20,6 @@ Covid has isolated people, but our website provides a platform to share their ex
 
 # Screenshots
 ![Website](/screenshots/mainpage.png?raw=true)
+![Website](/screenshots/aws.png?raw=true)
+![Website](/screenshots/experience.png?raw=true)
+![Website](/screenshots/tracker.png?raw=true)
