@@ -10,11 +10,35 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
+   
+
+  <!-- bootUi cdn-->
+  <link rel="stylesheet" href="https://unpkg.com/botui/build/botui.min.css" /> 
+  <link rel="stylesheet" href="https://unpkg.com/botui/build/botui-theme-default.css"/> 
+  <link rel="stylesheet" href="style.css">
+
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+
+  <!-- Bot -->
+  <div class="bot-container">
+    <div id="my-botui-app">
+        <button class="close" onclick="closeBot()">❌</button>
+        <bot-ui></bot-ui>
+    </div>
+    <div>
+        <button class="thank" onclick="closeBot()">Thank You</button>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/vue/latest/vue.min.js"></script>
+<script src="https://unpkg.com/botui/build/botui.min.js"></script>
+
+
+
+    
     <!-- header section starts  -->
 
     <header>
@@ -372,6 +396,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <!-- custom js file link  -->
-    <script src="script.js"></script>
+    <script src="script.js">
+      
+
+
+
+
+
+    </script>
   </body>
 </html>
