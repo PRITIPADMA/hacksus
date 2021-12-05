@@ -16,19 +16,32 @@ const Story = () => {
   const router = useRouter();
   const { user } = useStore();
   const [story, setStory] = useState();
+
   useEffect(() => {
     const getStory = async () => {
-      let s = {};
       const querySnapshot = await getDocs(storiesCol);
       querySnapshot.forEach((doc) => {
-        if (doc.data().id == router.query.id) {
-          return (s = doc.data());
+        if (doc.id == router.query.id) {
+          return setStory(doc.data());
         }
       });
-      setStory(s);
     };
     getStory();
-  });
+  },[]);
+
+  const likeStory = async (story) => {
+    await updateDoc(doc(db, "stories", story.id), {
+      likes: story.likes + 1,
+    });
+  };
+
+  const dislikeStory = async(story) => {
+    await updateDoc(doc(db, "stories", story.id), {
+      dislikes: story.dislikes + 1,
+    });
+  };
+
+
   return (
     <>
       <StoryHeader />
@@ -39,19 +52,15 @@ const Story = () => {
           <p>{story?.story}</p>
           {user && (
             <>
-              <Button inverted color="green">
+              <Button inverted color="green" onClick={()=>likeStory(story)}>
                 Like ({story?.likes})
               </Button>
-              <Button inverted color="red">
+              <Button inverted color="red"  onClick={()=>dislikeStory(story)}>
                 Dislike ({story?.dislikes})
               </Button>
             </>
           )}
         </Segment>
-        <Statistic>
-          <Statistic.Label>Views</Statistic.Label>
-          <Statistic.Value>{story?.views}</Statistic.Value>
-        </Statistic>
       </Container>
     </>
   );

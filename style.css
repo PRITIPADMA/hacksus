@@ -190,7 +190,6 @@ header.sticky{
 .prevent .box-container .box:hover{
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
     background-color: #ffcc99;
-    cursor:pointer;
 }
 
 /* symptoms */
@@ -278,7 +277,6 @@ header.sticky{
 .game .box-container .box:hover{
     box-shadow: 0 .5rem 1rem rgba(0,0,0,.1);
     background-color: #ffcc99;
-    cursor:pointer;
 }
 
 /* precautions */
