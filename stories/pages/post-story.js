@@ -6,8 +6,6 @@ import db from "../services/db";
 import useStore from "../hooks/use-store";
 import { collection, addDoc } from "firebase/firestore";
 import { useRouter } from "next/dist/client/router";
-import { Router } from "react-router";
-
 
 const PostStory = () => {
   const router = useRouter();
@@ -35,8 +33,8 @@ const PostStory = () => {
           dislikes: 0,
         });
         console.log("Document written with ID: ", docRef.id);
-        router.push("/")
-        return ;
+        router.push("/");
+        return;
       } catch (e) {
         console.error("Error adding document: ", e);
       }
