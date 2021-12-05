@@ -6,7 +6,9 @@ import db from "../services/db";
 import useStore from "../hooks/use-store";
 import { collection, addDoc } from "firebase/firestore";
 
+
 const PostStory = () => {
+  //const history = useHistory();
   const { user } = useStore();
   const [title, setTitle] = useState("");
   const [storyInShort, setStoryInShort] = useState("");
@@ -39,6 +41,11 @@ const PostStory = () => {
       console.log("lol");
     }
   };
+
+  // const handleSubmit=(){
+  //   <Redirect to="/" />
+  // }
+
   return (
     <>
       <StoryHeader />

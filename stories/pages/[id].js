@@ -28,7 +28,7 @@ const Story = () => {
       setStory(s);
     };
     getStory();
-  });
+  },[]);
   return (
     <>
       <StoryHeader />

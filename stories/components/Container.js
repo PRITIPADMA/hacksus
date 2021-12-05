@@ -2,19 +2,23 @@ import React from "react";
 import { Button, Card, CardGroup, Image } from "semantic-ui-react";
 import useStore from "../hooks/use-store";
 import Link from "next/link";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
 import db from "../services/db";
 
 const StoryContainer = ({ stories }) => {
   const { user } = useStore();
 
-  const likeStory = async (story, likes) => {
+  const likeStory = async (story) => {
     await updateDoc(doc(db, "stories", story.id), {
-      likes: likes + 1,
+      likes: story.likes + 1,
     });
   };
 
-  const dislikeStory = (story) => {};
+  const dislikeStory = async(story) => {
+    await updateDoc(doc(db, "stories", story.id), {
+      dislikes: story.dislikes + 1,
+    });
+  };
 
   return (
     <Card.Group centered>
@@ -32,10 +36,10 @@ const StoryContainer = ({ stories }) => {
             {user && (
               <Card.Content extra>
                 <div className="ui two buttons">
-                  <Button basic color="green">
+                  <Button basic color="green" onClick={()=>likeStory(story)}>
                     Like ({story.likes})
                   </Button>
-                  <Button basic color="red">
+                  <Button basic color="red" onClick={()=>dislikeStory(story)}>
                     Dislike ({story.dislikes})
                   </Button>
                 </div>
