@@ -17,7 +17,8 @@ Covid has isolated people, but our website provides a platform to share their ex
 **Game:** Javascript
 
 **Deployment:** AWS, Creation of instance and running on Ubuntu Live Server (http://3.7.175.9)
-
+# Video
+![Website](/screenshots/recording.gif?raw=true)
 # Screenshots
 ![Website](/screenshots/mainpage.png?raw=true)
 ![Website](/screenshots/aws.png?raw=true)
