@@ -5,10 +5,12 @@ import StoryHeader from "../components/Header";
 import db from "../services/db";
 import useStore from "../hooks/use-store";
 import { collection, addDoc } from "firebase/firestore";
+import { useRouter } from "next/dist/client/router";
+import { Router } from "react-router";
 
 
 const PostStory = () => {
-  //const history = useHistory();
+  const router = useRouter();
   const { user } = useStore();
   const [title, setTitle] = useState("");
   const [storyInShort, setStoryInShort] = useState("");
@@ -31,9 +33,10 @@ const PostStory = () => {
           userImg: user.photoURL,
           likes: 0,
           dislikes: 0,
-          views: 0,
         });
         console.log("Document written with ID: ", docRef.id);
+        router.push("/")
+        return ;
       } catch (e) {
         console.error("Error adding document: ", e);
       }
